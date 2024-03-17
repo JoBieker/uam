@@ -1,7 +1,8 @@
-# Flow CRM Tutorial
+# User Access Management Application
 
-This project can be used as a starting point to create your own Vaadin application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+* This project is based on Spring Boot and Vaadin Flow to create a Website that allows to list, create, update and delete User Roles in a company.
+
+
 
 ## Running the application
 
