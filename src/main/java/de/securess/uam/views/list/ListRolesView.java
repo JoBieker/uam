@@ -10,19 +10,19 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import de.securess.uam.data.Role;
-import de.securess.uam.services.RoleService;
+import de.securess.uam.services.UamService;
 
 @PageTitle("Funktionen")
-@Route(value = "")
+@Route(value = "roles")
 public class ListRolesView extends VerticalLayout {
 
-    private final RoleService roleService;
+    private final UamService uamService;
     Grid<Role> grid = new Grid<>(Role.class);
     TextField filterText = new TextField();
     RoleForm roleForm;
 
-    public ListRolesView(RoleService roleService) {
-        this.roleService = roleService;
+    public ListRolesView(UamService uamService) {
+        this.uamService = uamService;
         addClassName("list-view");
         setSizeFull();
         configureGrid();
@@ -34,7 +34,7 @@ public class ListRolesView extends VerticalLayout {
     }
 
     private void configureForm() {
-        roleForm = new RoleForm(roleService.findAllUnits());
+        roleForm = new RoleForm(uamService.findAllUnits());
         roleForm.setWidth("100em");
         roleForm.addSaveListener(this::saveRole);
         roleForm.addDeleteListener(this::deleteRole);
@@ -48,13 +48,13 @@ public class ListRolesView extends VerticalLayout {
     }
 
     private void deleteRole(RoleForm.DeleteEvent deleteEvent) {
-        roleService.deleteRole(deleteEvent.getRole());
+        uamService.deleteRole(deleteEvent.getRole());
         updateList();
         closeEditor();
     }
 
     private void saveRole(RoleForm.SaveEvent saveEvent) {
-        roleService.saveRole(saveEvent.getRole());
+        uamService.saveRole(saveEvent.getRole());
         updateList();
         closeEditor();
     }
@@ -68,7 +68,7 @@ public class ListRolesView extends VerticalLayout {
         return content;
     }
 
-    private Component getToolBar() {
+    private Component  getToolBar() {
         filterText.setPlaceholder("Filter by role...");
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
@@ -88,7 +88,7 @@ public class ListRolesView extends VerticalLayout {
     }
 
     private void updateList() {
-        grid.setItems(roleService.findAllRoles(filterText.getValue()));
+        grid.setItems(uamService.findAllRoles(filterText.getValue()));
     }
 
     private void configureGrid() {

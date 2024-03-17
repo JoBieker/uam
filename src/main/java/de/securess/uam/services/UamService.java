@@ -9,12 +9,12 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RoleService  {
+public class UamService {
 
     private final RoleRepository roleRepository;
     private final UnitRepository unitRepository;
 
-    public RoleService(RoleRepository roleRepository, UnitRepository unitRepository) {
+    public UamService(RoleRepository roleRepository, UnitRepository unitRepository) {
         this.roleRepository = roleRepository;
         this.unitRepository = unitRepository;
     }
@@ -46,6 +46,14 @@ public class RoleService  {
 
     public List<Unit> findAllUnits() {
         return unitRepository.findAll();
+    }
+
+    public List<Unit> findAllUnits(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return unitRepository.findAll();
+        } else {
+            return unitRepository.search(stringFilter);
+        }
     }
 
 }
